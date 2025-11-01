@@ -36,21 +36,23 @@
     - remna-server
     - remna
 
-- name: Configure caddy
-  hosts:
-    - central
-  roles:
-    - caddy
-  become: true
-  tags:
-    - caddy
-
 - name: Configure remna node
   hosts:
-    - iphizic.remna_node
+    - remna_node
   roles:
-    - remna-node
+    - baikal
+    - iphizic.remna-node
   become: true
   tags:
     - remna-node
     - remna
+
+- name: Configure caddy
+  hosts:
+    - central
+    - remna_node
+  roles:
+    - caddy
+  become: true
+  tags:
+    - caddy

@@ -1,4 +1,4 @@
-- name: Create remna dir
+- name: Create caddy dir
   file:
     path: "{{ caddy_install_path }}"
     owner: root

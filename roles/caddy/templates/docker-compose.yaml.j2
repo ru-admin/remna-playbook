@@ -4,10 +4,7 @@ services:
         restart: unless-stopped
         container_name: caddy
         hostname: caddy
-        ports:
-          - "80:80"
-          - "443:443"
-          - "443:443/udp"
+        ports: {{ caddy_ports }}
         volumes:
           - {{ caddy_install_path }}/Caddyfile:/etc/caddy/Caddyfile
           - caddy-data:/data

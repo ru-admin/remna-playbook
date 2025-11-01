@@ -2,3 +2,46 @@ remna_app_port: 2223
 
 firewall_additional_rules:
   - "iptables -A INPUT -s {{ zerotier_network }} -j ACCEPT"
+
+caddy_ports:
+  - "80:80"
+  - "127.0.0.1:9443:9443"
+
+caddy_network_config:
+      baikal-network:
+        name: baikal-network
+        driver: bridge
+        external: true
+
+caddy_config: |
+  {
+      https_port {{ remna_ss_port }}
+      servers {
+          listener_wrappers {
+              proxy_protocol {
+                  allow 127.0.0.1/32
+              }
+              tls
+          }
+      }
+      auto_https disable_redirects
+  }
+
+  http://{{ remna_ss_domain }} {
+      bind 0.0.0.0
+      redir https://{{ remna_ss_domain }}{uri} permanent
+  }
+
+  https://{{ remna_ss_domain }} {
+       reverse_proxy * http://{{ remna_ss_service }}
+  }
+
+  :{{ remna_ss_port }} {
+      tls internal
+      respond 204
+  }
+
+  :80 {
+      bind 0.0.0.0
+      respond 204
+  }
