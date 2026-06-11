@@ -4,12 +4,12 @@
   vars_prompt:
     - name: password
       prompt: What is your password?
-
+  become: true
   tasks:
     - name: Create user
       ansible.builtin.user:
         name: "{{ default_user }}"
-        uid: 1000
+        uid: 1001
         shell: /bin/bash
         group: sudo
         append: yes

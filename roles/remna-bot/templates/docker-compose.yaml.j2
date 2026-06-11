@@ -1,0 +1,39 @@
+services:
+  remna-bot-bot:
+    container_name: 'remna-bot-bot'
+    hostname: remna-bot-bot
+    image: ghcr.io/jolymmiels/remnawave-telegram-shop-bot:{{ remna_bot_version }}
+    env_file:
+      - env
+    depends_on:
+      remna-bot-db:
+        condition: service_healthy
+    volumes:
+      - {{ remna_bot_install_path }}/translations:/translations
+    networks:
+      - remnawave-network
+
+  remna-bot-db:
+    image: postgres:17
+    container_name: 'remnawave-telegram-shop-db'
+    hostname: remnawave-telegram-shop-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER={{ remna_bot_pg_user }}
+      - POSTGRES_PASSWORD={{ remna_bot_pg_password }}
+      - POSTGRES_DB={{ remna_bot_pg_db }}
+      - TZ=UTC
+    volumes:
+      - {{ remna_bot_install_path }}/bot-db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}' ]
+      interval: 3s
+      timeout: 10s
+      retries: 3
+    networks:
+      - remnawave-network
+
+networks:
+    remnawave-network:
+        name: remnawave-network
+        external: true

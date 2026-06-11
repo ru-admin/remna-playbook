@@ -1,0 +1,46 @@
+remna_bot_enable: false
+
+remna_bot_install_path: /opt/remnawave-bot
+
+remna_bot_version: latest
+
+### APP ###
+remna_bot_app_port: 3000
+
+#remna_bot_remna_api_token:
+
+#remna_bot_price_1_month:
+#remna_bot_price_3_month:
+#remna_bot_price_6_month:
+#remna_bot_price_12_month:
+#
+#remna_bot_star_price_1_month:
+#remna_bot_star_price_3_month:
+#remna_bot_star_price_6_month:
+#remna_bot_star_price_12_month:
+
+#remna_bot_token: token
+
+#remna_bot_remna_api_token: token
+
+#remna_bot_admin_id: id
+
+#remna_bot_squad_uuids: uuids
+
+remna_bot_yookassa_enabled: "true"
+#remna_bot_yookassa_token: token
+#remna_bot_yookassa_shop_id: id
+remna_bot_yookassa_url: https://api.yookassa.ru/v3
+remna_bot_yookassa_email: user@example.com
+
+remna_bot_referal_days: 7
+
+remna_bot_status_url: "https://kuma.iphizic.ru/status/vpn-statuses"
+remna_bot_support_url: "https://t.me/+ITclKOkN-MAzOWQy"
+remna_bot_feedback_url: "https://t.me/+ITclKOkN-MAzOWQy"
+remna_bot_channel_url: "https://t.me/+ITclKOkN-MAzOWQy"
+remna_bot_tos_url: "https://t.me/+ITclKOkN-MAzOWQy"
+
+remna_bot_pg_password: postgres
+remna_bot_pg_user: postgres
+remna_bot_pg_db: postgres

@@ -1,0 +1,4 @@
+---
+
+- include_tasks: main_tasks.yml
+  when: remna_bot_enable

@@ -35,6 +35,15 @@
   tags:
     - remna-server
     - remna
+      
+- name: Configure remna node
+  hosts:
+    - central
+  roles:
+    - remna-bot
+  become: true
+  tags:
+    - remna-bot
 
 - name: Configure remna node
   hosts:

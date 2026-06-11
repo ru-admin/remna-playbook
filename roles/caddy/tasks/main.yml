@@ -21,6 +21,7 @@
     owner: root
     group: root
     mode: '0644'
+  notify: Restart caddy
 
 - name: Start compose file
   community.docker.docker_compose_v2:

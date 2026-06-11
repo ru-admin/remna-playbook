@@ -1,14 +1,92 @@
 default_user: iphizic
 
+
+docker_daemon_options:
+  userland-proxy: false
+
 os_auth_pw_max_age: 9999
 
 firewall_allowed_tcp_ports:
   - "22"
 
+firewall_allowed_udp_ports:
+  - "9993"
+
+firewall_additional_rules:
+  - iptables -A INPUT -s {{ zerotier_network }} -j ACCEPT
+
 docker_users:
   - "{{ default_user }}"
 
-headplaine_hs_public_url: "https://headscale.example.com"
+remna_version: 2.7.4
+remna_sub_version: 7.1.8 # https://hub.docker.com/r/remnawave/subscription-page/tags
+remna_node_version: 2.7.0
+remna_bot_version: 4.0.0
+
+### WEBHOOK ###
+remna_webhook_enabled: "false"
+### Only https:// is allowed
+remna_webhook_url: https://example.com/remnahook
+### This secret is used to sign the webhook payload, must be exact 64 characters. Only a-z, 0-9, A-Z are allowed.
+remna_webhook_secret: <secret>
+remna_api_token: <token>
+
+caddy_cloudflare_token: <token> # for acme challange
+
+remna_telegram_enabled: "true"
+remna_telegram_token: <token>
+remna_telegram_admin: <admin_id>
+remna_telegram_notify_chat: <chat_id>
+
+mon_server_domain_name: example.com
+mon_server_kuma_domain: example.com
+mon_server_grafana_user: user
+mon_server_grafana_password: <password>
+mon_server_subscription: <sub for xray-checker>
+
+zerotier_network: 10.121.15.0/24
+
+ztnet_auth_secret: <secret>
+ztnet_domain_name: example.com
+
+zerotier_network_id: <net_id>
+
 remna_domain: example.com
-remna_jwt_auth_secret: change_me
-remna_jvt_api_token_secret: change_me
+remna_sub_panel_domain: sub.example.com
+remna_sub_page: true
+
+remna_ss_port: 9443
+remna_ss_domain: "example.com"
+remna_ss_service: "some service for selfsteal"
+
+#remna_hwid_device_limit: "true"
+
+remna_jwt_auth_secret: <secret>
+remna_jvt_api_token_secret: <secret>
+
+
+remna_bot_enable: true
+
+remna_bot_domain: example.com
+
+remna_bot_price_1_month: 300
+remna_bot_price_3_month: 900
+remna_bot_price_6_month: 1800
+remna_bot_price_12_month: 3600
+
+remna_bot_star_price_1_month: 999999
+remna_bot_star_price_3_month: 999999
+remna_bot_star_price_6_month: 999999
+remna_bot_star_price_12_month: 999999
+
+remna_bot_yookassa_token: <token>
+remna_bot_yookassa_shop_id: <shop_id>
+remna_bot_yookassa_email: <email>
+
+remna_bot_token: <bot_token>
+
+remna_bot_remna_api_token: <bot token>
+
+remna_bot_admin_id: <admin id>
+
+remna_bot_squad_uuids: ae694dfd-43b2-4ed6-b836-3fd6996c21d1

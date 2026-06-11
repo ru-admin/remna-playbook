@@ -1,0 +1,35 @@
+- name: Create remna-bot dir
+  file:
+    path: "{{ remna_bot_install_path }}/translations"
+    owner: root
+    group: root
+    mode: 0777
+    state: directory
+
+#- name: download translation
+#  ansible.builtin.get_url:
+#    url: https://raw.githubusercontent.com/Jolymmiels/remnawave-telegram-shop/refs/heads/main/translations/ru.json
+#    dest: "{{ remna_bot_install_path }}/translations/ru.json"
+#    mode: 0666
+
+- name: Create env file
+  template:
+    src: env.j2
+    dest: "{{ remna_bot_install_path }}/env"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Create docker compose
+  template:
+    src: docker-compose.yaml.j2
+    dest: "{{ remna_bot_install_path }}/docker-compose.yaml"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Start compose file
+  community.docker.docker_compose_v2:
+    project_src: "{{ remna_bot_install_path }}"
+    remove_orphans: true
+    state: present

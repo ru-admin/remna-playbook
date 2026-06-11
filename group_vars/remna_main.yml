@@ -12,6 +12,11 @@ caddy_config: |
       reverse_proxy * http://remnawave-subscription-page:3010
   }
   {% endif %}
+  {% if remna_bot_enable %}
+  https://{{ remna_bot_domain }} {
+      reverse_proxy * http://remna-bot-bot:8080
+  }
+  {% endif %}
   :443 {
       tls internal
       respond 204

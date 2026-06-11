@@ -19,7 +19,7 @@ caddy_config: |
       servers {
           listener_wrappers {
               proxy_protocol {
-                  allow 127.0.0.1/32
+                  allow 127.0.0.0/8
               }
               tls
           }
@@ -29,10 +29,17 @@ caddy_config: |
 
   http://{{ remna_ss_domain }} {
       bind 0.0.0.0
-      redir https://{{ remna_ss_domain }}{uri} permanent
+      redir https://{{ remna_ss_domain }}:8444{uri} permanent
   }
 
   https://{{ remna_ss_domain }} {
+       tls {
+         issuer acme {
+                 # dir https://acme-staging-v02.api.letsencrypt.org/directory
+                 dns cloudflare {{ caddy_cloudflare_token }}
+                 email iphizic@ya.ru
+            }
+       }
        reverse_proxy * http://{{ remna_ss_service }}
   }
 
