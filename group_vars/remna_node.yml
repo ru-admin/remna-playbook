@@ -1,4 +1,8 @@
 remna_app_port: 2223
+remna_ss_port: 443
+remna_ss_domain: "{{ remna_domain }}"
+remna_ss_service: "127.0.0.1:{{ remna_app_port }}"
+zerotier_network: "172.30.0.0/16"
 
 firewall_additional_rules:
   - "iptables -A INPUT -s {{ zerotier_network }} -j ACCEPT"
