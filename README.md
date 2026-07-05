@@ -54,6 +54,11 @@
    **Важно:** файл `group_vars/all.yml` добавлен в `.gitignore`, поэтому ваши ключи не попадут в репозиторий.
    
 ### Запустим установку remnawave:
-  ```bash
+   ```bash
+     ansible-playbook playbook.yml
+   ```
+   Если переменная `user_password` задана в `group_vars/all.yml`, пароль подставится автоматически.
+   Если переменная не задана, запускайте с флагом `-K` для ручного ввода:
+   ```bash
      ansible-playbook playbook.yml -K
    ```

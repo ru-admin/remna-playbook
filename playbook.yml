@@ -1,4 +1,30 @@
 ---
+- name: Set connection settings for all hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Fail if ansible_ssh_private_key_file is not defined
+      ansible.builtin.fail:
+        msg: >
+          Variable 'ansible_ssh_private_key_file' is not defined in group_vars/all.yml.
+          Add the path to your SSH private key:
+          ansible_ssh_private_key_file: "~/.ssh/id_rsa"
+      when: ansible_ssh_private_key_file is not defined
+
+    - name: Set ansible_user and SSH key for all hosts
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        ansible_user: "{{ default_user }}"
+        ansible_ssh_private_key_file: "{{ ansible_ssh_private_key_file }}"
+      loop: "{{ groups['all'] }}"
+
+    - name: Set ansible_become_pass for all hosts
+      ansible.builtin.add_host:
+        name: "{{ item }}"
+        ansible_become_pass: "{{ user_password }}"
+      loop: "{{ groups['all'] }}"
+      when: user_password is defined
+
 - name: Hardening hosts
   hosts: all
   roles:

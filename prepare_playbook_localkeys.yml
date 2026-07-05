@@ -16,10 +16,10 @@
       loop: "{{ groups['all'] }}"
       when: hostvars[item].ansible_password is not defined
 
-    - name: Get user password
+    - name: Get user password from prompt
       ansible.builtin.pause:
         prompt: "Enter password for user {{ default_user }}"
-      register: user_password
+      register: user_password_prompt
       when: user_password is not defined
 
     - name: Update hosts with root password
@@ -35,9 +35,9 @@
       ansible.builtin.add_host:
         name: "{{ item }}"
         ansible_host: "{{ hostvars[item].ansible_host | default(item) }}"
-        user_password: "{{ user_password.user_input }}"
+        user_password: "{{ user_password_prompt.user_input }}"
       loop: "{{ groups['all'] }}"
-      when: user_password is defined and user_password.user_input is defined
+      when: user_password_prompt is defined and user_password_prompt.user_input is defined
 
     - name: Update hosts with user password from variable
       ansible.builtin.add_host:
@@ -45,7 +45,7 @@
         ansible_host: "{{ hostvars[item].ansible_host | default(item) }}"
         user_password: "{{ user_password }}"
       loop: "{{ groups['all'] }}"
-      when: user_password is defined and user_password.user_input is not defined
+      when: user_password is defined and (user_password_prompt is not defined or user_password_prompt.skipped is defined)
 
     - name: Update hosts that already have ansible_password
       ansible.builtin.add_host:
