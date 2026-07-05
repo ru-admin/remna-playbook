@@ -12,7 +12,7 @@
 
 ### Сначала подготовим  Python .env:
   ```bash
-    pythhon3 -m venv .env
+    python3 -m venv .env
   ```
 
 ### Активируем .env:
@@ -29,13 +29,29 @@
   В директории group_vars необходимо сформировать all.yml согласно all.yml.example
 
 ### `Опционально` Создадим пользователя отличного от root для хоста
-   `!!!ВНИМАНИЕ для запуска этого плейбука требуется чтобы имя пользователя на Github 
-   совпадало с именем пользователя в all.yml`
+   Два варианта плейбука для создания пользователя:
+
+   **Вариант 1: Ключи с GitHub**
    ```bash
-     ansible-playbook prepare-playbook.yml -u root -k
+     ansible-playbook prepare_playbook.yml -u root -b
    ```
+   Ключи загружаются автоматически с `https://github.com/<user>.keys`
+
+   **Вариант 2: Локальные ключи**
+   ```bash
+     ansible-playbook prepare_playbook_localkeys.yml -u root -b
+   ```
+   Ключи берутся из `group_vars/all.yml`. Требуется настройка переменной `default_user_authorized_keys`:
+   ```yaml
+   default_user_authorized_keys:
+     - "ssh-ed25519 AAAA... user1@host"
+     - "ssh-ed25519 AAAA... user2@host"
+   ```
+
    На первый вопрос вводим пароль от root
    Второй вопрос запрашивает пароль для пользователя
+
+   **Важно:** файл `group_vars/all.yml` добавлен в `.gitignore`, поэтому ваши ключи не попадут в репозиторий.
    
 ### Запустим установку remnawave:
   ```bash

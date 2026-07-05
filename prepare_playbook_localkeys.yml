@@ -60,6 +60,17 @@
   gather_facts: no
   become: yes
   tasks:
+    - name: Fail if no SSH keys available
+      ansible.builtin.fail:
+        msg: >
+          SSH keys not found: 'default_user_authorized_keys' is not defined or empty
+          in group_vars/all.yml. Add your public SSH keys:
+          default_user_authorized_keys:
+            - "ssh-ed25519 AAAA... user@host"
+      when: >
+        default_user_authorized_keys is not defined or
+        default_user_authorized_keys | length == 0
+
     - name: Create user
       ansible.builtin.user:
         name: "{{ default_user }}"
@@ -73,7 +84,7 @@
       ansible.posix.authorized_key:
         user: "{{ default_user }}"
         state: present
-        key: "https://github.com/{{ default_user }}.keys"
+        key: "{{ default_user_authorized_keys | join('\n') }}"
 
     - name: Install sudo
       apt:

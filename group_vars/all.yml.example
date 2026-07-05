@@ -1,5 +1,8 @@
 default_user: iphizic
 
+default_user_authorized_keys:
+  - "ssh-ed25519 AAAA... user@host"
+
 os_auth_pw_max_age: 9999
 
 firewall_allowed_tcp_ports:
